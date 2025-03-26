@@ -64,9 +64,21 @@ class ProblemSolutions {
 
     public int findKthLargest(int[] array, int k) {
 
-        // ADD YOUR CODE HERE
+        // Create a PriorityQueue with a max heap configuration
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
 
-        return 0;
+        // Add all elements from the array into the max heap
+        for (int num : array) {
+            maxHeap.offer(num);
+        }
+
+        // Remove k-1 largest elements from the max heap (top 3)
+        for (int i = 0; i < k - 1; i++) {
+            maxHeap.poll();
+        }
+
+        // Return the root element of the max heap which is the k-th largest element
+        return maxHeap.peek();
     }
 
 
