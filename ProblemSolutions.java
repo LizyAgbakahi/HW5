@@ -97,9 +97,30 @@ class ProblemSolutions {
 
     public int[] sort2Arrays(int[] array1, int[] array2) {
 
-        // ADD YOU CODE HERE
+        // Create a PriorityQueue (min-heap) to store all elements
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-        return null;
+        // Add all elements from the first array to the priority queue
+        for (int num : array1) {
+            pq.add(num);
+        }
+
+        // Add all elements from the second array to the priority queue
+        for (int num : array2) {
+            pq.add(num);
+        }
+
+        // Create a new array to store the sorted values
+        int[] result = new int[array1.length + array2.length];
+        int index = 0;
+
+        // Remove elements from the priority queue and fill the result array
+        while (!pq.isEmpty()) {
+            result[index++] = pq.poll();
+        }
+
+        // Return the fully merged and sorted array
+        return result;
     }
 
 }
