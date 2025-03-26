@@ -32,9 +32,20 @@ class ProblemSolutions {
 
     public boolean isSubset(int list1[], int list2[]) {
 
-        // ADD YOU CODE HERE -- DON'T FORGET TO ADD YOR NAME AT TOP OF FILE
+        // Create a HashSet to store elements of list1 for O(1) lookup
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : list1) {
+            set.add(num);
+        }
 
-        return false;
+        // Verify if each element in list2 exists in the set
+        for (int num : list2) {
+            if (!set.contains(num)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
