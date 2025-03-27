@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Lizy Agbakahi COMP400C Spring 2025
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -246,11 +246,44 @@ public class CuckooHash<K, V> {
 
  	public void put(K key, V value) {
 
-		// ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE.
-		// Also make sure you read this method's prologue above, it should help
-		// you. Especially the two HINTS in the prologue.
+		// Check if the exact <key, value> pair already exists in the table
+		// Avoids duplicates
+		if (get(key) != null && get(key).equals(value)) {
+			return;
+		}
 
-		return;
+		// Find the first possible position using hash function 1
+		int currentPosition = hash1(key);
+		Bucket<K, V> newBucket = new Bucket<>(key, value);
+
+		// Try placing the element in the table, but only up to CAPACITY times
+		for (int i = 0; i < CAPACITY; i++) {
+			// If the current position is empty, insert the bucket and exit
+			if (table[currentPosition] == null) {
+				table[currentPosition] = newBucket;
+				return;
+			}
+
+			// If the position is occupied, swap the existing bucket with the new one
+			Bucket<K, V> displacedBucket = table[currentPosition];
+			// Place new bucket in the current position
+			table[currentPosition] = newBucket;
+			// The displaced bucket needs to find a new position
+			newBucket = displacedBucket;
+
+			// Switch to the alternate hash function to find the next position
+			if (currentPosition == hash1(newBucket.getBucKey())) {
+				currentPosition = hash2(newBucket.getBucKey());
+			} else {
+				currentPosition = hash1(newBucket.getBucKey());
+			}
+		}
+
+		// After trying CAPACITY times and still can't find a spot, rehash
+		rehash();
+
+		// Try inserting the displaced bucket again after rehashing
+		put(newBucket.getBucKey(), newBucket.getValue());
 	}
 
 
